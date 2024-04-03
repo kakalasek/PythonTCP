@@ -11,12 +11,12 @@ def main():
         s.listen()
         conn, addr = s.accept()
         with conn:
-            print(f"Connected by {addr}")
             while True:
                 data = conn.recv(1024)
-                if not data:
-                    break
-                conn.sendall(data)
+                if data == 'date':
+                    conn.sendall(b'You called the date function!')
+                else:
+                    conn.sendall(b"Unknown command")
 
 
 
