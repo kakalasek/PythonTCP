@@ -1,4 +1,15 @@
 import socket
+import subprocess as sb
+import os
+
+def date():
+    return sb.check_output(["date"])
+
+def help():
+    return b'date\nhelp\nifconfig\nexit\n'
+
+def ifconfig():
+    return sb.check_output(["ifconfig"])
 
 
 def main():
@@ -13,12 +24,21 @@ def main():
         with conn:
             while True:
                 data = conn.recv(1024)
-                if data == 'date':
-                    conn.sendall(b'You called the date function!')
-                else:
-                    conn.sendall(b"Unknown command")
+                match data:
+                    case b'date':
+                        conn.sendall(date())
+                    case b'help':
+                        conn.sendall(help())
+                    case b'ifconfig':
+                        conn.sendall(ifconfig())
+                    case b'exit':
+                        conn.sendall(b'break')
+                        break
+                    case _:
+                        conn.sendall(b"Unknown command")
 
 
 
 if __name__ == "__main__":
     main()
+

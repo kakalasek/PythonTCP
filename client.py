@@ -10,7 +10,10 @@ def main():
             send = input()
             s.sendall(send.encode('ascii'))
             data = s.recv(1024)
-            print(f"Received {data!r}")
+            if data == b'break':
+                break
+            else:
+                print(f"Received {data!r}")
 
 
 if __name__ == '__main__':
